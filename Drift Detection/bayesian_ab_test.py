@@ -60,11 +60,13 @@ def get_mean_and_std(train, test):
 
 twenty_train_full = fetch_20newsgroups(
     subset='train',
+    categories=["sci.space"],  # remove this if RAM allows
     shuffle=True,
     random_state=14
 )
 twenty_test_full = fetch_20newsgroups(
     subset='test',
+    categories=["sci.space"],  # remove this if RAM allows
     shuffle=True,
     random_state=14
 )
@@ -73,6 +75,7 @@ twenty_test_full = fetch_20newsgroups(
 batch_size = 5000
 nbr_batches = int(np.ceil(len(twenty_test_full.data) / batch_size))
 current_batch = 1
+print("Train size, nbr batches:", len(twenty_train_full.data), nbr_batches)
 for batch_indices in batch(iterable=range(len(twenty_test_full.data)), batch_size=batch_size):
     progress = round(100 * current_batch / nbr_batches, 2)
     print(f"Streaming Simulation progress: {progress}%")
@@ -134,7 +137,7 @@ for batch_indices in batch(iterable=range(len(twenty_test_full.data)), batch_siz
         effect_size = pmc.Deterministic(name='effect_size', var=diff_of_means / np.sqrt((test_std**2 + train_std**2) / 2))
 
         # MCMC estimation
-        trace = pmc.sample(2000, random_seed=14)
+        trace = pmc.sample(2000, random_seed=14, cores=1)  # remove cores=1 in prod
 
         # determine if retraining needed by scaling the effect size mean between the 94% HDI
         # this will not precisely match the probability values on the plot, but it will be close
