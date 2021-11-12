@@ -129,12 +129,9 @@ for batch_indices in batch(iterable=range(len(twenty_test_full.data)), batch_siz
     # only sample from features with sufficient non-zero values
     #   (word appears > min_allowable_sum times across all documents)
     nbr_features_to_test = 10
-    min_allowable_sum = 10
+    min_allowable_sum = 200
     valid_column_indices = np.where(twenty_train_vect.sum(axis=0) > min_allowable_sum)[1].tolist()
-    sample_features = random.sample(
-        [i for i in range(twenty_train_vect[:, valid_column_indices].shape[1])],
-        k=nbr_features_to_test
-    )
+    sample_features = random.sample(valid_column_indices, k=nbr_features_to_test)
 
     for f_idx, f in enumerate(sample_features):
         print(f"Testing feature {f_idx + 1} of {len(sample_features)} and that feature is {vocabulary[f]}")
