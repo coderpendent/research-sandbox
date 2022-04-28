@@ -6,6 +6,9 @@ from haystack.document_stores import FAISSDocumentStore
 """
 FYI File - How to use FAISS and Haystack
 
+faiss-cpu==1.6.5
+farm-haystack==1.3.0
+
 There is no easy way to get an existing FAISS index into Haystack, so instead 
 I will create the index with Haystack and get what I need out of it for 
 de-duplicating docs via similarity and keyword semantic search.  (The goal is 
