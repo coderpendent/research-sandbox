@@ -1,7 +1,6 @@
 import urllib.request
 import tarfile
 import os
-
 import logging
 import joblib
 import numpy as np
@@ -76,7 +75,7 @@ class USEEmbeddingModel:
         """
         Runs text through the model and produces the embeddings
 
-        :param text_input: a list where each item is a document (a comment from this dataset)
+        :param text_input: a list where each item is a document
         :param post_processing_scaler: a sklearn scaler to apply to the embeddings
         :param batch_size: integer representing how many samples to include in a batch
         """

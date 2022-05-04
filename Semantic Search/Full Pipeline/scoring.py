@@ -24,6 +24,7 @@ class RelevancyScorer:
         """
         # iterate over dict copy and make updates to original
         for search_term, search_res in self.sim_search_results.copy().items():
+
             # map hashes to scores for available docs (docs in the search results)
             new_search_res = search_res.copy()
             hash_to_score_map = {self.all_doc_hashes[k]: v for k, v in search_res.items()}
@@ -41,6 +42,8 @@ class RelevancyScorer:
                 if self.all_doc_hashes[doc_id] in hash_to_score_map.keys() else 0
                 for doc_id in doc_ids_with_hash_but_no_score
             }
+            # there should be no doc IDs in the updates that were also in the search results
+            assert((set(updates_to_search_res.keys()) & set(search_res.keys())) == set())
             new_search_res.update(updates_to_search_res)
 
             # replace the search results for this term
